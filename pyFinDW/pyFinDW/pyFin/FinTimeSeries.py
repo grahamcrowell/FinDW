@@ -19,22 +19,33 @@ class FinTimeSeries(object):
     def __init__(self, label, data, **kwargs):
         self._label = label
         if isinstance(data, pyFin.StockPrice.StockPrice):
+            print('stock price')
             self._data = data.__getattribute__(default_OHLC_Vol_AdjC)
-        elif isinstance(data, FinTimeSeries):
-            self._data = data
-        elif isinstance(data, type(time_series_dtype)):
-            self._data = np.asarray(data, dtype=time_series_dtype)
         elif isinstance(data, np.ndarray):
-            """Wrapper around Date, Open, High, Low, Close, Volume, Adj Close dataset"""
-
-            self._data = np.asarray([data[0], data[1]], dtype=time_series_dtype)
+            if data.dtype == ohlc_vol_a:
+                print('ohlc_vol_a => open_price')
+                self._data = np.asarray([data['date'],data['open_price']], dtype=time_series_dtype)
+                print(self._data.shape)
+                print(self._data)
+            elif data.dtype == time_series_dtype:
+                print('time_series_dtype')
+                self._data = data
+            else:
+                """Wrapper around Date, Open, High, Low, Close, Volume, Adj Close dataset"""
+                print('np.ndarray')
+                raise NotImplementedError('only StockPrice and FinTimeSeries implemented')
         else:
             raise NotImplementedError('only StockPrice and FinTimeSeries implemented')
         return super().__init__(**kwargs)
 
     def sma(self, length):
         """simple moving average"""
-        return FinTimeSeries('{}_sma{}'.format(self._label, length), self._data)
+        print(self['value'])
+        ret = np.cumsum(self._data['value'], dtype=np.float64)
+        ret[length:] = ret[length:] - ret[:-length]
+        ret_ = ret[length - 1:] / length
+        dt = self._data['date'][:(len(ret_)-1)]
+        return FinTimeSeries('{}_sma{}'.format(self._label, length), np.asarray([dt, ret_], dtype=time_series_dtype))
 
     def ema(self, length):
         """exponential moving average"""
@@ -51,11 +62,11 @@ class FinTimeSeries(object):
 
     def __str__(self):
         """to string; describe object/instance"""
-        return self._label + '(len={})'.format(self._data.size)
+        return self._label + '(len={})'.format(self._data.shape)
 
     def __repr__(self):
         """to string describe class"""
-        return self._label + '(len={})'.format(self._data.size)
+        return self._label + '(len={})'.format(self._data.shape)
 
     #def __getattribute__(self, name):
     #    """operator. <attribute_name> """

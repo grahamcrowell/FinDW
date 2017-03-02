@@ -16,7 +16,7 @@ def get_price_loading():
     price_loading = config['price']['downloaded']
     if not os.path.exists(price_loading):
         print('{} DNE creating...'.format(price_loading))
-        os.makedirs(price_loading)
+        #os.makedirs(price_loading)
     return price_loading
 
 
@@ -24,7 +24,7 @@ def get_price_loaded():
     price_loaded = config['price']['loaded']
     if not os.path.exists(price_loaded):
         print('{} DNE creating...'.format(price_loaded))
-        os.makedirs(price_loaded)
+        #os.makedirs(price_loaded)
     return price_loaded
 
 
@@ -32,7 +32,7 @@ def get_stmt_loading():
     stmt_loading = config['statement']['parsed']
     if not os.path.exists(stmt_loading):
         print('{} DNE creating...'.format(stmt_loading))
-        os.makedirs(stmt_loading)
+        #os.makedirs(stmt_loading)
     return stmt_loading
 
 
@@ -40,7 +40,7 @@ def get_stmt_loaded():
     stmt_loaded = config['statement']['loaded']
     if not os.path.exists(stmt_loaded):
         print('{} DNE creating...'.format(stmt_loaded))
-        os.makedirs(stmt_loaded)
+        #os.makedirs(stmt_loaded)
     return stmt_loaded
 
 
@@ -48,7 +48,7 @@ def get_stmt_html():
     stmt_html = config['statement']['downloaded']
     if not os.path.exists(stmt_html):
         print('{} DNE creating...'.format(stmt_html))
-        os.makedirs(stmt_html)
+        #os.makedirs(stmt_html)
     return stmt_html
 
 
@@ -56,7 +56,7 @@ def get_stmt_parsed():
     stmt_parsed = config['statement']['parsed']
     if not os.path.exists(stmt_parsed):
         print('{} DNE creating...'.format(stmt_parsed))
-        os.makedirs(stmt_parsed)
+        #os.makedirs(stmt_parsed)
     return stmt_parsed
 
 # def get_stmt_html_nodata():
