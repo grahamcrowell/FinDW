@@ -1,1 +1,0 @@
-https://ycharts.com/glossary/terms/max_drawdown
