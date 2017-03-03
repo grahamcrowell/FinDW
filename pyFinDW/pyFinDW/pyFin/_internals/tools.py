@@ -3,7 +3,7 @@ import time
 import datetime
 import json
 import requests
-import pymssql
+# import pymssql
 
 json_path = 'dataFolderConfig.json'
 print(os.getcwd())
@@ -146,6 +146,6 @@ def get_paths(in_dir, ext=None):
     return pths_in
 
 
-def get_sql_server_connection():
-    conn = pymssql.connect("localhost", "sa", "2and2is5", "Staging")
-    return conn
+# def get_sql_server_connection():
+#     conn = pymssql.connect("localhost", "sa", "2and2is5", "Staging")
+#     return conn

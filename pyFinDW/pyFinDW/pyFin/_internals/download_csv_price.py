@@ -60,12 +60,12 @@ def download(price_download_param):
     #print(data_in)
     #print(len(data_in))
     
-    if(False):
+    #if(False):
 
-        conn = tools.get_sql_server_connection()
-        cur = conn.cursor()
-        cur.executemany(sql,data_in)
-        conn.commit()
+    #    conn = tools.get_sql_server_connection()
+    #    cur = conn.cursor()
+    #    cur.executemany(sql,data_in)
+    #    conn.commit()
     if os.path.exists(inpath):
         pass
         # print('saved {}'.format(inpath))
