@@ -29,14 +29,23 @@ class StockPrice(pyFin.FinTimeSeries.FinTimeSeries):
         start_date = date(year=1900, month=1, day=1)
         download_job = PriceDownloadParam(symbol, start_date, None)
         downloaded_data = download(download_job)
-
+        #base_class_data = downloaded_data[:,[0,1]]
+        self._stock_price_data = downloaded_data
         return super(StockPrice, self).__init__(symbol, downloaded_data)
-   
+
     def __str__(self):
+        """python's to string"""
         return self._symbol
 
-    #def __getitem__(self, index):
-    #    if 
+    def ema(self, length):
+        return super(StockPrice, self).ema(length)
+    
+    def sma(self, length):
+        return super(StockPrice, self).sma(length)
 
-    #def __getattribute__(self, name):
-        #return self._data[name]
+    def volitility(self, length):
+        return super(StockPrice, self).volitility(length)
+
+    def __getitem__(self, index):
+        """operator[ <column_name> ] """
+        return self._data[index]
