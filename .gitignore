@@ -311,3 +311,5 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+pyFinDW/pyFinDW/dataFolderConfig.json
+*.pyc

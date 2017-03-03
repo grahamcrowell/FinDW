@@ -7,14 +7,10 @@ from datetime import date
 import pyFin._internals.tools as tools
 import numpy as np
 
-fin_dtype = np.dtype(
-    [('date', 'datetime64[D]')
-        ,('open_price', np.float64)
-        ,('high_price', np.float64)
-        ,('low_price', np.float64)
-        ,('close_price', np.float64)
-        ,('volume', np.int64)
-        ,('adjusted_close_price', np.float64)])
+
+fin_dtype = np.dtype([('date', 'datetime64[D]'),('open_price', np.float64),('high_price', np.float64),('low_price', np.float64),('close_price', np.float64),('volume', np.int64),('adjusted_close_price', np.float64)])
+price_dict_keys = ['date','open_price','high_price','low_price','close_price','volume','adjusted_close_price']
+price_dict_value_np_dtypes = [np.dtype('datetime64[D]'),np.dtype(np.float64),np.dtype(np.float64),np.dtype(np.float64),np.dtype(np.float64),np.dtype(np.int64),np.dtype(np.float64)]
 
 def yahoo_price_url(symbol, start_date, end_date=None):
     if end_date is None:
@@ -45,7 +41,7 @@ def download(price_download_param):
                               price_download_param.start_date, price_download_param.end_date)
     req = requests.get(url)
     sql = "INSERT INTO FinDW.dbo.StockPrice (Date,OpenPrice,HighPrice,LowPrice,ClosePrice,Volume,AdjClosePrice) VALUES ('%s',%s,%s,%s,%s,%s,%s)"
-    data_in = []
+    data_in = None
     past_header_line = False
     with open(inpath, 'w') as fout:
         for line in req.iter_lines():
@@ -53,9 +49,12 @@ def download(price_download_param):
             fout.write(line_str + '\n')
             if past_header_line:
                 tkns = line_str.split(',')
+                for i in range(len(tkns)):
+                    data_in[i].append(tkns[i])
                 #tkns[0] = tkns[0].replace('-','')
                 data_in.append(tuple(tkns))
             else:
+                data_in = [list() for i in range(len(price_dict_keys))]
                 past_header_line = True
     #print(data_in)
     #print(len(data_in))
@@ -72,7 +71,12 @@ def download(price_download_param):
     else:
         print('\n\n\t* * *\nNOT saved {}'.format(inpath))
     time.sleep(0.05)
-    return np.asarray(data_in,dtype=fin_dtype)
+    # convert list of lists to dict of numpy arrays
+    out = {}
+    for i in range(len(price_dict_keys)):
+        key = price_dict_keys[i]
+        out[key] = np.asarray(data_in[i], dtype=price_dict_value_np_dtypes[i])
+    return out
     #np.dtype([('ada',np.
 if __name__ == '__main__':
     symbol = 'CAT'
