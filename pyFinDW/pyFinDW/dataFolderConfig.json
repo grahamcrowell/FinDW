@@ -8,8 +8,8 @@
 		"error" : "C:/Users/user/Dropbox/FinDW/Data/Error/Statement"
 	},
   "price": {
-    "downloaded": "C:/Users/gcrowell/Dropbox/FinDW/Data/Loading/Price",
-    "loaded": "C:/Users/gcrowell/Dropbox/FinDW/Data/Archive/Price",
-    "error": "C:/Users/gcrowell/Dropbox/FinDW/Data/Error/Price"
+    "downloaded": "C:/Users/user/Dropbox/FinDW/Data/Loading/Price",
+    "loaded": "C:/Users/user/Dropbox/FinDW/Data/Archive/Price",
+    "error": "C:/Users/user/Dropbox/FinDW/Data/Error/Price"
   }
 }

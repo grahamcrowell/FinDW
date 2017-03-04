@@ -11,28 +11,29 @@ class FinTimeSeries(object):
     """abstract base class for time series: list of pairs (ie table with 2 columns) = [ dates, values ]"""
 
     def __init__(self, label, date_array, value_array, **kwargs):
-        self._label = label
+        print('init FinTimeSeries({}, len={})'.format(label, len(date_array)))
+        self.__label = label
         self.__date_array = date_array
         self.__value_array = value_array
         # if isinstance(data, pyFin.StockPrice.StockPrice):
         #     print('stock price')
-        #     self._data = data.__getattribute__(default_OHLC_Vol_AdjC)
+        #     self.__value_array = data.__getattribute__(default_OHLC_Vol_AdjC)
         # elif isinstance(data, np.ndarray):
         #     if data.dtype == ohlc_vol_a:
         #         print('ohlc_vol_a => open_price')
-        #         self._data = np.asarray([data['date'],data['open_price']], dtype=time_series_dtype)
-        #         print(self._data.shape)
-        #         print(self._data)
+        #         self.__value_array = np.asarray([data['date'],data['open_price']], dtype=time_series_dtype)
+        #         print(self.__value_array.shape)
+        #         print(self.__value_array)
         #     elif data.dtype == time_series_dtype:
         #         print('time_series_dtype')
-        #         self._data = data
+        #         self.__value_array = data
         #     else:
         #         """Wrapper around Date, Open, High, Low, Close, Volume, Adj Close dataset"""
         #         print('np.ndarray')
         #         raise NotImplementedError('only StockPrice and FinTimeSeries implemented')
         # elif isinstance(data, dict):
         #     print('dict recieved by FinTimeSeries')
-        #     self._data = data
+        #     self.__value_array = data
         # else:
         #     raise NotImplementedError('only StockPrice and FinTimeSeries implemented')
         return super().__init__(**kwargs)
@@ -43,33 +44,31 @@ class FinTimeSeries(object):
         ret[length:] = ret[length:] - ret[:-length]
         ret_ = ret[length - 1:] / length
         dt = self.__date_array[:len(ret_)]
-        print(len(dt))
-        print(len(ret_))
-        return FinTimeSeries('{}_sma{}'.format(self._label, length), dt, ret_)
+        return FinTimeSeries('{}_sma{}'.format(self.__label, length), dt, ret_)
 
     def ema(self, length):
         """exponential moving average"""
-        return FinTimeSeries('{}+ema{}'.format(self._label, length), self._data)
+        return FinTimeSeries('{}+ema{}'.format(self.__label, length), self.__value_array)
 
     def volitility(self, length):
         """ volitility """
-        return FinTimeSeries('{}vol{}'.format(self._label, length), self._data)
+        return FinTimeSeries('{}vol{}'.format(self.__label, length), self.__value_array)
 
     def __lt__(self, rhs):
         """self < rhs; wrapper around numpy.less; return piecewise comparison"""
-        return FinTimeSeries(self._label, np.less(self._data, rhs._data))
+        return FinTimeSeries(self.__label, np.less(self.__value_array, rhs.__value_array))
 
     def __str__(self):
         """to string; describe object/instance"""
-        return self._label + '(len={})'.format(self._data.shape)
+        return 'FinTimeSeries ({} shape={})'.format(self.__label, self.__value_array.shape)
 
     def __repr__(self):
         """to string describe class"""
-        return self._label + '(len={})'.format(self._data.shape)
+        return self.__label + '(len={})'.format(self.__value_array.shape)
 
     # def __getattribute__(self, name):
     #    """operator. <attribute_name> """
-    #    return self._data[name]
+    #    return self.__value_array[name]
 
     def __getitem__(self, index):
         if index == 'date':
@@ -78,4 +77,4 @@ class FinTimeSeries(object):
             return self.__value_array
         else:
             """operator[ <column_name> ] """
-            return self._data[index]
+            return self.__value_array[index]
