@@ -25,7 +25,7 @@ class StockPriceBuilder(object):
         TODO: add logic to check if data already exists (in database or local csv)"""
         tmp_param = pyFin._internals.download_csv_price.PriceDownloadParam(self.__symbol, self.__start_date, self.__end_date)
         data = pyFin._internals.download_csv_price.download(tmp_param)
-        return StockPrice(self.__symbol, *(data.values()))
+        return StockPrice(self.__symbol, **data)
 
     def __str__(self):
         return 'StockPriceBuilder {}'.format(self.__symbol)
@@ -44,10 +44,6 @@ class StockPrice(object):
         self.__volume_arr = volume_arr
         self.__adj_close_arr = adj_close_arr
         assert len(self.__date_arr) == len(self.__open_arr) == len(self.__high_arr) == len(self.__low_arr) == len(self.__close_arr) == len(self.__volume_arr)
-        #start_date = date(year=1900, month=1, day=1)
-        #download_job = PriceDownloadParam(symbol, start_date, None)
-        #self.__stock_price_data_dict = download(download_job)
-        #return super(StockPrice, self).__init__(symbol, self.__stock_price_data_dict['date'], self.__stock_price_data_dict['adjusted_close_price'])
 
     def __str__(self):
         """python's to string"""

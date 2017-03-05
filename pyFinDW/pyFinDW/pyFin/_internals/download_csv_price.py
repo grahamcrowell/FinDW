@@ -9,7 +9,7 @@ import numpy as np
 
 
 #fin_dtype = np.dtype([('date', 'datetime64[D]'),('open_price', np.float64),('high_price', np.float64),('low_price', np.float64),('close_price', np.float64),('volume', np.int64),('adjusted_close_price', np.float64)])
-price_dict_keys = ['date','open_price','high_price','low_price','close_price','volume','adjusted_close_price']
+price_dict_keys = ['date_arr','open_arr','high_arr','low_arr','close_arr','volume_arr','adj_close_arr']
 price_dict_value_np_dtypes = [np.dtype('datetime64[D]'),np.dtype(np.float64),np.dtype(np.float64),np.dtype(np.float64),np.dtype(np.float64),np.dtype(np.int64),np.dtype(np.float64)]
 
 def yahoo_price_url(symbol, start_date, end_date=None):
