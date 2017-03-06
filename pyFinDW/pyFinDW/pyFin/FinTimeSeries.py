@@ -17,10 +17,11 @@ class FinTimeSeries(object):
         self.__date_arr = date_arr
         self.__value_arr = value_arr
         assert len(self.__date_arr) == len(self.__value_arr)
-        #return super().__init__(**kwargs)
+        # return super().__init__(**kwargs)
 
     def GetDates(self):
         return self.__date_arr
+
     def GetValues(self):
         return self.__value_arr
 
@@ -46,12 +47,14 @@ class FinTimeSeries(object):
             return np.less(self.__value_arr, rhs.GetValues())
         elif isinstance(rhs, numbers.Number):
             return np.less(self.__value_arr, rhs)
+
     def __gt__(self, rhs):
         """self < rhs; wrapper around numpy.less; return piecewise comparison"""
         if isinstance(rhs, np.ndarray):
             return np.greater(self.__value_arr, rhs.GetValues())
         elif isinstance(rhs, numbers.Number):
             return np.greater(self.__value_arr, rhs)
+
     def __str__(self):
         """to string; describe object/instance"""
         return 'FinTimeSeries ({} shape={})'.format(self.__label, self.__value_arr.shape)
@@ -71,8 +74,6 @@ class FinTimeSeries(object):
         assert len(self) == len(rhs)
         """relax this constraint later"""
         assert self.__date_arr == rhs.GetDates()
-        
-
 
     # def __getattribute__(self, name):
     #    """operator. <attribute_name> """

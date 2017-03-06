@@ -3,14 +3,15 @@ import os
 import time
 import collections
 from datetime import date
-#from pyFin._internals.tools import * 
+#from pyFin._internals.tools import *
 import pyFin._internals.tools as tools
 import numpy as np
 
 
 #fin_dtype = np.dtype([('date', 'datetime64[D]'),('open_price', np.float64),('high_price', np.float64),('low_price', np.float64),('close_price', np.float64),('volume', np.int64),('adjusted_close_price', np.float64)])
-price_dict_keys = ['date_arr','open_arr','high_arr','low_arr','close_arr','volume_arr','adj_close_arr']
-price_dict_value_np_dtypes = [np.dtype('datetime64[D]'),np.dtype(np.float64),np.dtype(np.float64),np.dtype(np.float64),np.dtype(np.float64),np.dtype(np.int64),np.dtype(np.float64)]
+price_dict_keys = ['date_arr', 'open_arr', 'high_arr', 'low_arr', 'close_arr', 'volume_arr', 'adj_close_arr']
+price_dict_value_np_dtypes = [np.dtype('datetime64[D]'), np.dtype(np.float64), np.dtype(np.float64), np.dtype(np.float64), np.dtype(np.float64), np.dtype(np.int64), np.dtype(np.float64)]
+
 
 def yahoo_price_url(symbol, start_date, end_date=None):
     """returns string of internet address from which price data is downloaded"""
@@ -56,10 +57,10 @@ def download(price_download_param):
             else:
                 data_in = [list() for i in range(len(price_dict_keys))]
                 past_header_line = True
-    #print(data_in)
-    #print(len(data_in))
-    
-    #if(False):
+    # print(data_in)
+    # print(len(data_in))
+
+    # if(False):
 
     #    conn = tools.get_sql_server_connection()
     #    cur = conn.cursor()
