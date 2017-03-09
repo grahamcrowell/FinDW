@@ -2,6 +2,8 @@ import pyFin
 from pyFin import *
 from pyFin.StockPrice import *
 
+
+
 # single stock example
 stockPriceBuilder = StockPriceBuilder('MSFT')
 print(stockPriceBuilder)
@@ -29,7 +31,7 @@ short_lt_long_bool_idx = adjCloseTSSMA10 < adjCloseTSSMA50
 # cross points are when adjacent values of short_lt_long_bool_idx aren't equal
 cross_pt_idxs = []
 prev = short_lt_long_bool_idx[0]
-for i in range(1,len(a)-1):
+for i in range(1,len(short_lt_long_bool_idx)-1):
     if short_lt_long_bool_idx[i] != prev:
         cross_pt_idxs.append(i)
         prev = short_lt_long_bool_idx[i]
