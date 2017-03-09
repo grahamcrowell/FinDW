@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="TOC">
+<ul>
+<li><a href="#stock-trading-strategy-backtesting">Stock Trading Strategy Backtesting</a><ul>
+<li><a href="#indicator-comparison-strategy">Indicator Comparison Strategy</a></li>
+<li><a href="#naive-binary-bot">Naive Binary Bot</a></li>
+</ul></li>
+</ul>
+</div>
+<h1 id="stock-trading-strategy-backtesting">Stock Trading Strategy Backtesting</h1>
+<p>Define a stock price time series as a function with a date parameter <span class="math inline"><em>T</em></span> that returns daily stock prices <span class="math inline"><em>x</em><sub><em>t</em></sub> ∈ ℝ<sup>+</sup></span> for all days up until <span class="math inline"><em>T</em></span>.</p>
+<p><br /><span class="math display"><em>x</em><sub><em>t</em></sub> := <em>t</em> → ℝ<sup>+</sup></span><br /> for <span class="math inline"><em>M</em></span> descrete dates <span class="math inline"><em>t</em> = (<em>t</em><sub>0</sub>, <em>t</em><sub>1</sub>, …, <em>t</em><sub><em>i</em></sub>, ..,<em>t</em><sub><em>M</em></sub> = <em>T</em>)</span> where <span class="math inline"><em>T</em></span> is most recent/current date.</p>
+<p>Define lag operator (function) <span class="math inline"><em>L</em></span> and parameter <span class="math inline"><em>τ</em></span> <br /><span class="math display"><em>L</em><sup><em>τ</em></sup>(<em>x</em><sub><em>t</em></sub>)=<em>L</em><sup><em>τ</em></sup><em>x</em><sub><em>t</em></sub> = <em>x</em><sub><em>t</em> − <em>τ</em></sub></span><br /></p>
+<p>Define trailing summation operator (function) <span class="math inline"><em>S</em></span> and parameter <span class="math inline"><em>τ</em></span> <br /><span class="math display">$$S^\tau(L(x_t))=S^\tau(L)x_t=\sum_{i=0}^{\tau} L^i x_t=x_{t-\tau}$$</span><br /></p>
+<p>The <span class="math inline"><em>τ</em>−</span>day simple moving average <br /><span class="math display">$$\text{sma}^{\tau}(x_t)=\frac{S^\tau(L)x_t}{\tau}\in\mathbb{R}^{+}$$</span><br /></p>
+<p>In general, an indicator is a <span class="math inline"><em>f</em></span> is a (parameterized) function that takes a time series and a returns a single number <br /><span class="math display"><em>f</em> := <em>x</em><sub><em>t</em></sub> → ℝ<sup>+</sup></span><br /></p>
+<h2 id="indicator-comparison-strategy">Indicator Comparison Strategy</h2>
+<p>Specifiy 2 indicators <span class="math inline"><em>f</em></span> and <span class="math inline"><em>g</em></span> and input time series <span class="math inline"><em>x</em><sub><em>t</em></sub></span> and define binary recommender that returns: BUY or SELL.</p>
+<p><br /><span class="math display">$$r(x_t,f,g)=\begin{cases}\text{if:  }f(x_t)&lt;g(x_t)\text{ then BUY}\\\text{else: SELL}\end{cases}$$</span><br /></p>
+<h2 id="naive-binary-bot">Naive Binary Bot</h2>
+<p><code>input:</code> - binary recommender <span class="math inline"><em>r</em>(⋅, <em>f</em>, <em>g</em>)</span> - set of all available assets <span class="math inline"><em>A</em> = {<em>a</em><sub><em>j</em></sub>}</span> and their associated time series <span class="math inline"><em>X</em><sub><em>t</em></sub> = {<em>x</em><sub><em>j</em>, <em>t</em></sub> : <em>a</em><sub><em>j</em></sub> ∈ <em>A</em>}</span></p>
+</body>
+</html>
