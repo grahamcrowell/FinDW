@@ -25,7 +25,14 @@ $$r(x_t,f,g)=\begin{cases}\text{if:  }f(x_t)<g(x_t)\text{ then BUY}\\\text{else:
 
 ## Naive Binary Bot
 
-`input: `
+`initial input: `
 - binary recommender $r(\cdot,f,g)$
-- set of all available assets $A=\{a_j\}$ and their associated time series $X_t=\{x_{j,t}:a_j\in A\}$
+- set of all available assets $A=\{a_j\}$ and associated set of time series $X_t=\{x_{j,t}:a_j\in A\}$
+- time interval $t=(t_a,t_b)$
+- go to input
 
+`input: `
+- point in time $t\in(t_a,t_b)$
+- $A$ universe of stocks
+- previous day's portfolio of $N$ holdings $P_{t-1}=(a_k,w_k)_{k=0}^{N-1}$ 
+- 
