@@ -1,0 +1,10 @@
+﻿USE FinDW
+GO
+
+IF SCHEMA_ID('Dim') IS NULL
+BEGIN
+	DECLARE @sql VARCHAR(MAX) = 'CREATE SCHEMA [Dim]';
+	EXEC(@sql);
+END
+
+

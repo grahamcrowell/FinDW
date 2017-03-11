@@ -1,19 +1,24 @@
 # Stock Trading Strategy Backtesting
+Define stock choosing algorithm(s) that 
 
+## Input Data: Time Series
 Define a stock price time series as a function with a date parameter $T$ that returns daily stock prices $x_t\in\mathbb{R}^+$ for all days up until $T$.
 
-$$x_t:=t\to\mathbb{R}^+$$ for $M$ descrete dates $t=(t_0,t_1,\ldots,t_i,..,t_M=T)$ where $T$ is most recent/current date.
+$$x_t:=t\to\mathbb{R}^+$$ for $M$ descrete dates $t=(t_0,t_1,\ldots,t_i,..,t_{M-1}=T)$ where $T$ is most recent/current date.
 
+## Time Series Operators
 Define lag operator (function) $L$ and parameter $\tau$
 $$L^\tau(x_t)=L^\tau x_t=x_{t-\tau}$$
 
 Define trailing summation operator (function) $S$ and parameter $\tau$
-$$S^\tau(L(x_t))=S^\tau(L)x_t=\sum_{i=0}^{\tau} L^i x_t=x_{t-\tau}$$
+$$S^\tau(L(x_t))=S^\tau(L)x_t=\sum_{i=0}^{\tau} L^i x_t$$
+
+### Indicator
 
 The $\tau-$day simple moving average
 $$\text{sma}^{\tau}(x_t)=\frac{S^\tau(L)x_t}{\tau}\in\mathbb{R}^{+}$$
 
-In general, an indicator is a $f$ is a (parameterized) function that takes a time series and a returns a single number
+In general, an **indicator** is a $f$ is a (parameterized) function that takes a time series and a returns a single number
 $$f:=x_t\to\mathbb{R}^+$$
 
 
@@ -25,10 +30,16 @@ $$r(x_t,f,g)=\begin{cases}\text{if:  }f(x_t)<g(x_t)\text{ then BUY}\\\text{else:
 
 ## Naive Binary Bot
 
-`initial input: `
-- binary recommender $r(\cdot,f,g)$
+`inputs:`
+- backtest date interval: $t=(t_0,t_1,\ldots,t_i,..,t_{M-1}=T)$ containing $M$ dates indexed by $i=(0,1,\ldots,M)$
+- binary recommender $r(~\cdot~,f,g)$
+- for every $i$, a set of $N_i$ available stocks: $A_i=\{a_{i,j}\}_{j=0}^{N_i-1}$
+- for each $i$ and $j$ each stock $a_j$ has an associated stock price time series $x_t$
+
+
+`initial: `
+
 - set of all available assets $A=\{a_j\}$ and associated set of time series $X_t=\{x_{j,t}:a_j\in A\}$
-- time interval $t=(t_a,t_b)$
 - go to input
 
 `input: `

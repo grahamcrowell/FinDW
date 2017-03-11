@@ -1,0 +1,7 @@
+USE master
+GO
+
+IF DB_ID('FinDW') IS NULL
+BEGIN
+	CREATE DATABASE FinDW;
+END
