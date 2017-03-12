@@ -1,7 +1,7 @@
 ﻿Param 
 (
     [parameter(Mandatory = $false)]
-    [ValidateSet('STDBDECSUP01','STDBDECSUP02','STDBDECSUP03','SPDBDECSUP04','PC')]
+    [ValidateSet('STDBDECSUP01','STDBDECSUP02','STDBDECSUP03','SPDBDECSUP04','PC','vchdsdw.database.windows.net','localhost')]
     [string] $DeploymentSqlServer
 )
 Set-Location -Path $PSScriptRoot
@@ -26,7 +26,7 @@ Write-Host ("`n`n(re)Deploying DDL SQL scripts at:`n`t{1}`n to Sql Server: `n`t{
 function ExecuteSqlScript ($sqlScriptFullPath) 
 {    
     Write-Host "`t`texecute: "$sqlScriptFullPath" to: "$DeploymentSqlServer
-    SQLCMD -Slocalhost -E -i $sqlScriptFullPath
+    SQLCMD -S $DeploymentSqlServer -E -i $sqlScriptFullPath
 }
 
 function ExecuteSqlScriptFolders ([System.Collections.ArrayList]$sqlScriptFolders) 
@@ -37,14 +37,17 @@ function ExecuteSqlScriptFolders ([System.Collections.ArrayList]$sqlScriptFolder
     {
         write-host "`n`tfolder: "$folder
         $absPath = Join-Path -Path $rootPath -ChildPath $folder
-        $sqlScriptNames = Get-ChildItem -Path $absPath -File
-        $sqlScriptPaths = New-Object System.Collections.ArrayList
-        foreach($sqlScriptName in $sqlScriptNames)
+        if(Test-Path -Path $absPath)
         {
-            Write-Host ("`t`t{0}" -f $sqlScriptName)
-            $sqlScriptPath = Join-Path -Path $absPath -ChildPath $sqlScriptName
-            [void]$sqlScriptPaths.Add($sqlScriptPath)
-            ExecuteSqlScript($sqlScriptPath)
+            $sqlScriptNames = Get-ChildItem -Path $absPath -File
+            $sqlScriptPaths = New-Object System.Collections.ArrayList
+            foreach($sqlScriptName in $sqlScriptNames)
+            {
+                Write-Host ("`t`t{0}" -f $sqlScriptName)
+                $sqlScriptPath = Join-Path -Path $absPath -ChildPath $sqlScriptName
+                [void]$sqlScriptPaths.Add($sqlScriptPath)
+                ExecuteSqlScript($sqlScriptPath)
+            }
         }
     }
 }
@@ -59,6 +62,8 @@ $sqlScriptFolders = New-Object System.Collections.ArrayList
 [void]$sqlScriptFolders.Add("Schema")
 [void]$sqlScriptFolders.Add("Table")
 [void]$sqlScriptFolders.Add("View")
+[void]$sqlScriptFolders.Add("StoredProcedure")
+[void]$sqlScriptFolders.Add("Function")
 [void]$sqlScriptFolders.Add("PostDeploymentScripts")
 
 ExecuteSqlScriptFolders ($sqlScriptFolders)

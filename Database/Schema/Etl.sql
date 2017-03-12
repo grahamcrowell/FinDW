@@ -1,0 +1,10 @@
+﻿USE FinDW
+GO
+
+IF SCHEMA_ID('Etl') IS NULL
+BEGIN
+	DECLARE @sql VARCHAR(MAX) = 'CREATE SCHEMA [Etl]';
+	EXEC(@sql);
+END
+
+

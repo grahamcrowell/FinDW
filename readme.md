@@ -31,9 +31,9 @@ $$r(x_t,f,g)=\begin{cases}\text{if:  }f(x_t)<g(x_t)\text{ then BUY}\\\text{else:
 ## Naive Binary Bot
 
 `inputs:`
-- backtest date interval: $t=(t_0,t_1,\ldots,t_i,..,t_{M-1}=T)$ containing $M$ dates indexed by $i=(0,1,\ldots,M)$
+- backtest date interval containing: $t=(t_0,t_1,\ldots,t_i,..,t_{M-1}=T)$; sequence of dates containing $M$ dates indexed by $i=(0,1,\ldots,M)$
 - binary recommender $r(~\cdot~,f,g)$
-- for every $i$, a set of $N_i$ available stocks: $A_i=\{a_{i,j}\}_{j=0}^{N_i-1}$
+- for every date $t$ in back testing interval, we need the set of available stocks: $A_t=\{a_{t,j}\}_{j=0}^{N_t-1}$; where $N_t$ is the number of assets
 - for each $i$ and $j$ each stock $a_j$ has an associated stock price time series $x_t$
 
 

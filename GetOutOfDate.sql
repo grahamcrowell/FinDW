@@ -1,13 +1,14 @@
 USE FinDW
 GO
 
-;WITH x AS (
-SELECT ISNULL(MAX(DateID),0) AS LastUpdateDateID
-    ,stk.StockID
-FROM Dim.Stock AS stk
-LEFT JOIN Fact.StockPrice AS prc
-ON stk.StockID = prc.StockID
-GROUP BY stk.StockID
+;WITH MostRecentStockPrice AS (
+    SELECT ISNULL(MAX(DateID),0) AS LastUpdateDateID
+        ,stk.Symbol
+    FROM Dim.Stock AS stk
+    LEFT JOIN Fact.StockPrice AS prc
+    ON stk.StockID = prc.StockID
+    WHERE stk.StockName != 'Invalid'
+    GROUP BY stk.Symbol
 )
 SELECT *
-FROM x
+FROM MostRecentStockPrice
