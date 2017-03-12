@@ -1,2 +1,4 @@
 This is top folder in our "PyFin" [package](https://docs.python.org/3/tutorial/modules.html#packages).
-Top level classes that implement u
+Contains top level classes that are consumed/called by user code.
+Provides clean interface to lower level functionality.
+Code in lower directories is not called directly by user code.

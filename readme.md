@@ -57,6 +57,15 @@ $$r(x_t,f,g)=\begin{cases}\text{if:  }f(x_t)<g(x_t)\text{ then BUY}\\\text{else:
 
 This is the root of our [git repo](https://git-scm.com/about).  No code here, just docs.
 
-### root/Database/ folder
+### FinDW/Database/ folder
 
-gfd
+`*.sql` database code
+
+### FinDW/pyFinDW/ folder
+
+- "main" entry point
+- top level of python code base.
+
+#### FinDW/pyFinDW/pyFin
+
+top level of python package named: `pyFin`
