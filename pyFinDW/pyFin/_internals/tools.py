@@ -146,6 +146,15 @@ def get_paths(in_dir, ext=None):
     return pths_in
 
 
-# def get_sql_server_connection():
-#     conn = pymssql.connect("localhost", "sa", "2and2is5", "Staging")
-#     return conn
+def get_sql_server_connection():
+    server_name = 'localhost'
+    database_name = 'FinDW'
+    driver_name = 'ODBC Driver 13 for SQL Server'
+
+    pyodbc_connection_string = 'DRIVER={{{}}};SERVER={};Trusted_Connection=Yes;'.format(driver_name,server_name)
+    conn = pyodbc.connect("localhost", "sa", "2and2is5", "Staging")
+    if database_name is not None:
+        pyodbc_connection_string+='DATABASE={};'.format(database_name)
+
+    con = pyodbc.connect(pyodbc_connection_string)
+    return con

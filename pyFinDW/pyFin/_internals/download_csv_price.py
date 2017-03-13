@@ -62,10 +62,10 @@ def download(price_download_param):
 
     # if(False):
 
-    #    conn = tools.get_sql_server_connection()
-    #    cur = conn.cursor()
-    #    cur.executemany(sql,data_in)
-    #    conn.commit()
+    # conn = tools.get_sql_server_connection()
+    # cur = conn.cursor()
+    # cur.executemany(sql,data_in)
+    # conn.commit()
     if os.path.exists(inpath):
         pass
         # print('saved {}'.format(inpath))
@@ -73,11 +73,12 @@ def download(price_download_param):
         print('\n\n\t* * *\nNOT saved {}'.format(inpath))
     time.sleep(0.05)
     # convert list of lists to dict of numpy arrays
-    out = {}
-    for i in range(len(price_dict_keys)):
-        key = price_dict_keys[i]
-        out[key] = np.asarray(data_in[i], dtype=price_dict_value_np_dtypes[i])
-    return out
+    # out = {}
+    # for i in range(len(price_dict_keys)):
+        # key = price_dict_keys[i]
+        # out[key] = np.asarray(data_in[i], dtype=price_dict_value_np_dtypes[i])
+    # return out
+    return data_in
 
 if __name__ == '__main__':
     symbol = 'CAT'
