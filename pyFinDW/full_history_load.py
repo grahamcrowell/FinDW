@@ -13,7 +13,7 @@ if database_name is not None:
 
 con = pyodbc.connect(pyodbc_connection_string)
 
-sql = 'SELECT * FROM [FinDW].[Etl].[vwMostRecentStockPrice]'
+sql = 'SELECT * FROM [FinDW].[Etl].[vwMostRecentStockPrice] ORDER BY DATEDIFF(day, '
 
 cur = con.cursor()
 cur.execute(sql)
@@ -23,4 +23,3 @@ for row in cur:
     print(row[0])
     print(row[1])
     print(row[2])
-    param = 
