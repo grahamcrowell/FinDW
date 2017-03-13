@@ -56,12 +56,10 @@ class PriceDataDownloadRequest(object):
         self.rows = []
         past_header_line = False
         req = requests.get(self.yahoo_price_url())
-        print(req.status_code)
         if req.status_code == 404:
             print('stock price data not found for: {}'.format(self.symbol))
             return None
         else:
-            print('price data: {} records'.format(len(self.rows)))
             for line in req.iter_lines():
                 line_str = line.decode("utf-8")
                 if past_header_line:
@@ -72,6 +70,7 @@ class PriceDataDownloadRequest(object):
                     # date_in is a list of lists
                     # data_in = [list() for i in range(len(price_dict_keys))]
                     past_header_line = True
+            print('price data: {} records'.format(len(self.rows)))
 # check if symbol valid
 # check if dates valid
 # check if db has data
@@ -106,7 +105,7 @@ if __name__ == '__main__':
         end_date = row[1]
         symbol = row[2]
         stock_id = row[3]
-        print(symbol, stock_id, start_date, end_date)
+        print('downloading and uploading:\n\t{} ({} to {})'.format(symbol, start_date, end_date))
         downloader = PriceDataDownloadRequest(symbol, stock_id, start_date, end_date)
         rows = downloader.begin()
         downloader.sql()
