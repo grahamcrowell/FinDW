@@ -1,4 +1,4 @@
-import pandas
+import pandas as pd
 import pyodbc
 
 server_name = 'localhost'
@@ -12,13 +12,14 @@ if database_name is not None:
 con = pyodbc.connect(pyodbc_connection_string)
 
 sql = 'SELECT * FROM [FinDW].[Etl].[vwMostRecentStockPrice]'
-pandas_data_frame = pandas.read_sql(sql, con)
+pandas_data_frame = pd.read_sql(sql, con)
+
+# print(pandas_data_frame)
 
 print(pandas_data_frame)
-print(type(pandas_data_frame))
+print(pandas_data_frame.columns)
 
-xarray = pandas_data_frame.to_xarray()
-print(xarray)
-print(type(xarray))
-
-
+x = pandas_data_frame.loc('LastUpdatedDateID')
+print(x)
+x = pandas_data_frame[pandas_data_frame.LastUpdatedDateID == 0]
+print(x)
