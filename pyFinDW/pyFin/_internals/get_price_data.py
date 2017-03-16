@@ -82,9 +82,6 @@ class PriceDataDownloadRequest(object):
 #   return filled panadas/xarray data structure
 
 if __name__ == '__main__':
-    symbol = 'CAT'
-
-
     server_name = 'localhost'
     database_name = 'FinDW'
     driver_name = 'ODBC Driver 13 for SQL Server'
