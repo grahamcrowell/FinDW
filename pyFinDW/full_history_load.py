@@ -1,5 +1,7 @@
-import pandas
+import pandas as pd
 import pyodbc
+import pyFin._internals.download_csv_price as download
+
 
 server_name = 'localhost'
 database_name = 'FinDW'
@@ -11,14 +13,13 @@ if database_name is not None:
 
 con = pyodbc.connect(pyodbc_connection_string)
 
-sql = 'SELECT * FROM [FinDW].[Etl].[vwMostRecentStockPrice]'
-pandas_data_frame = pandas.read_sql(sql, con)
+sql = 'SELECT * FROM [FinDW].[Etl].[vwMostRecentStockPrice] ORDER BY DATEDIFF(day, '
 
-print(pandas_data_frame)
-print(type(pandas_data_frame))
+cur = con.cursor()
+cur.execute(sql)
 
-xarray = pandas_data_frame.to_xarray()
-print(xarray)
-print(type(xarray))
-
-
+for row in cur:
+    print(row)
+    print(row[0])
+    print(row[1])
+    print(row[2])

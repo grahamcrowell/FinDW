@@ -3,13 +3,13 @@ import time
 import datetime
 import json
 import requests
-# import pymssql
+import pyodbc
 
-json_path = 'dataFolderConfig.json'
-print(os.getcwd())
-json_file = open(json_path).read()
-config = json.loads(json_file)
-data_root = config['root']
+# json_path = 'dataFolderConfig.json'
+# print(os.getcwd())
+# json_file = open(json_path).read()
+# config = json.loads(json_file)
+# data_root = config['root']
 
 
 def get_price_loading():
@@ -72,14 +72,14 @@ def get_stmt_parsed():
 #       os.makedirs(stmt_html_nodata)
 #   return stmt_html_nodata
 
-price_loading = get_price_loading()
-price_loaded = get_price_loaded()
+# price_loading = get_price_loading()
+# price_loaded = get_price_loaded()
 
-stmt_loading = get_stmt_loading()
-stmt_loaded = get_stmt_loaded()
-stmt_html = get_stmt_html()
-#stmt_html_nodata = get_stmt_html_nodata()
-stmt_parsed = get_stmt_parsed()
+# stmt_loading = get_stmt_loading()
+# stmt_loaded = get_stmt_loaded()
+# stmt_html = get_stmt_html()
+# #stmt_html_nodata = get_stmt_html_nodata()
+# stmt_parsed = get_stmt_parsed()
 
 
 def make_price_filename(symbol, start_date, end_date):
@@ -146,6 +146,14 @@ def get_paths(in_dir, ext=None):
     return pths_in
 
 
-# def get_sql_server_connection():
-#     conn = pymssql.connect("localhost", "sa", "2and2is5", "Staging")
-#     return conn
+def get_database_connection(database_name='FinDW'):
+    server_name = 'localhost'
+    driver_name = 'ODBC Driver 13 for SQL Server'
+
+    pyodbc_connection_string = 'DRIVER={{{}}};SERVER={};Trusted_Connection=Yes;'.format(driver_name,server_name)
+    if database_name is not None:
+        pyodbc_connection_string+='DATABASE={};'.format(database_name)
+    
+    print('pyodbc: {}'.format(pyodbc_connection_string))
+    con = pyodbc.connect(pyodbc_connection_string)
+    return con
