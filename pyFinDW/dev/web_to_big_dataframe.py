@@ -29,8 +29,8 @@ def make_data_frame(symbols, symbol_count=50):
     joined.drop('Date',axis=1,inplace=True)
     return joined
 
-joined = make_data_frame(symbols, 500)
-joined.info(memory_usage='deep')
+# joined = make_data_frame(symbols, 500)
+# joined.info(memory_usage='deep')
 
 
 ##################################################
@@ -41,3 +41,13 @@ joined.info(memory_usage='deep')
 # Columns: 500 entries, ADP to CFNB
 # dtypes: float64(500)
 # memory usage: 26.8 MB
+
+
+sma10 = joined2.rolling(window=10).mean()
+sma50 = joined2.rolling(window=10).mean()
+buys = sma50 <= sma10
+buycounts = buys.sum(axis=1)
+joined2['IBMChange']=(joined2/joined2.shift(1))['IBM']
+joined2['MSFTChange']=(joined2/joined2.shift(1))['MSFT']
+
+
