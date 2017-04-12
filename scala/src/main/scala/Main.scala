@@ -18,11 +18,15 @@ class BuySignal(symbol: String, date_id: Int) {
 }
 
 object CrystalBall {
-  val signals = new HashMap[Int, Vector[BuySignal]]
+  var signals = new HashMap[Int, Vector[BuySignal]]
 
   def getBuySignals(date_id: Int): Vector[BuySignal] = {
     return signals.get(date_id).get
   }
+
+  override def toString: String =
+    s"Crystal Ball: date_id (${signals.keys.min} to ${signals.keys.max})"
+
 }
 
 object Bot {
@@ -49,22 +53,90 @@ object CsvReader {
 }
 
 object Main {
-  def main(args: Array[String]): Unit = {
-    println("Hello, world!")
 
-    val allSignals = HashMap[Int, Vector[BuySignal]]()
+  def simulate(): HashMap[Int, Vector[BuySignal]] = {
+    println("simulating buy signals...")
+
+    //
+    // date_id = 0
+    //
+    // create 2 buy signals on date_id = 0
+    var date_id = 0
+    var buySignalAbc = new BuySignal("ABC", date_id)
+    var buySignalXyz = new BuySignal("XYZ", date_id)
+    // create a daily buy signal collection
     var dailySignals = Vector[BuySignal]()
-    dailySignals = dailySignals :+ (new BuySignal("ABC", 0))
-    dailySignals = dailySignals :+ (new BuySignal("XYZ", 0))
-    println(dailySignals.size)
-    println(dailySignals.count((x: BuySignal) => true))
+    // append the 2 buy signals
+    dailySignals = dailySignals :+ buySignalAbc
+    dailySignals = dailySignals :+ buySignalXyz
+    // check and confirm
+    println(s"dailySignals: ${dailySignals.size}")
+    assert(dailySignals.size == 2)
+    var allSignals = HashMap[Int, Vector[BuySignal]]()
+    allSignals += (date_id -> dailySignals)
+    // check and confirm
+    println(s"allSignals has size: ${allSignals.size}")
+    assert(allSignals.size == 1)
+    assert(allSignals contains date_id)
 
-    //    allSignals.+((0, dailySignals))
-//    allSignals.++(dailySignals)
+    //
+    // date_id = 1
+    //
+    date_id = 1
+    buySignalAbc = new BuySignal("ABC", date_id)
+    buySignalXyz = new BuySignal("XYZ", date_id)
+    var buySignalFoo = new BuySignal("FOO", date_id)
+    // create a (?new?) daily buy signal collection
+    dailySignals = Vector[BuySignal]()
+    // append the 3 buy signals
+    dailySignals = dailySignals :+ buySignalAbc
+    dailySignals = dailySignals :+ buySignalXyz
+    dailySignals = dailySignals :+ buySignalFoo
+    // check and confirm
+    println(s"dailySignals: ${dailySignals.size}")
+    assert(dailySignals.size == 3)
+    allSignals += (date_id -> dailySignals)
+    // check and confirm
+    println(s"allSignals has size: ${allSignals.size}")
+    assert(allSignals.size == 2)
+    assert(allSignals contains date_id)
 
-//    dailySignals.+:(new BuySignal("ABC", 1))
-//    dailySignals.+:(new BuySignal("XYZ", 1))
+    //
+    // date_id = 2: assume no buy signals
+    //
+
+    //
+    // date_id = 3
+    //
+    date_id = 3
+    buySignalFoo = new BuySignal("FOO", date_id)
+    // create a (?new?) daily buy signal collection
+    dailySignals = Vector[BuySignal]()
+    // append the 1 buy signals
+    dailySignals = dailySignals :+ buySignalFoo
+    // check and confirm
+    println(s"dailySignals: ${dailySignals.size}")
+    assert(dailySignals.size == 1)
+    allSignals += (date_id -> dailySignals)
+    // check and confirm
+    println(s"allSignals has size: ${allSignals.size}")
+    assert(allSignals.size == 3)
+    assert(allSignals contains date_id)
+    println("buy signal simulation complete")
+
+    return allSignals
+  }
+
+  def main(args: Array[String]): Unit = {
+    println("\nhello")
+
+    val buySignals = simulate()
+    val crystalBall = CrystalBall
+    crystalBall.signals = buySignals
+    println(crystalBall)
+    println(crystalBall.getBuySignals(0))
 
 
+    println("\n\ngoodbye")
   }
 }
