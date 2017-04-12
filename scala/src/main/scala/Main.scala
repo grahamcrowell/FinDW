@@ -3,14 +3,14 @@ import java.util.Date
 import scala.collection.immutable.HashMap
 import scala.collection.immutable.Vector
 import scala.io.Source
+import scala.util.Random
 
 /**
   * Created by gcrowell on 4/11/2017.
   */
-class PriceSeries(symbol: String, values: Iterator[Float]) {
-  override def toString: String =
-    s"($symbol)"
-}
+
+//TODO create holding class
+//TODO create book value class
 
 class BuySignal(symbol: String, date_id: Int) {
   override def toString: String =
@@ -29,32 +29,82 @@ object CrystalBall {
 
 }
 
-object Bot {
-  val rng = new Range(0, 10, 1)
+object Market {
+  var priceData = new HashMap[String, HashMap[Int, Float]]
 
-}
-
-object CsvReader {
-  def read_data: Unit = {
-    val f = "3stocks.csv"
-    val src = Source.fromFile(f).getLines
-    val getValue = (line: String) => line.split(',')(1).toFloat
-
-    val ps = new PriceSeries("ABC", values = src.map(getValue))
-    println(ps)
-
-    val headerLine = src.take(1).next
-    println(headerLine)
-    //    println(getBuy0(headerLine)(0))
-    //    println(getBuy1(headerLine)(0))
-    //    println(getBuy2(headerLine)(0))
-
+  def getStart(): Int = {
+    return 0
   }
+
+  def getEnd(): Int = {
+    return 3
+  }
+
+  def getPrice(symbol: String, date_id: Int): Float = {
+    return priceData.get(symbol).get.get(date_id).get
+  }
+
 }
+
+
+object Bot {
+  var portfolioBookValue = HashMap[Int, Double]()
+  //TODO store book value of each all holdings
+
+  def execute_bot(): Unit = {
+    println(s"\n\nexecuting backtesting bot")
+    portfolioBookValue += (0 -> 1.0)
+    val market = Market
+    val crystalBall = CrystalBall
+    for (elem <- market.getStart().to(market.getEnd())) {
+      println(s"\non date_id: ${elem}:")
+      val buySignals = crystalBall.getBuySignals(elem)
+      println(s"\tbuySignals: $buySignals")
+      val buySignalCount = buySignals.size
+      println(s"\tbuySignalCount = $buySignalCount")
+      if (buySignalCount > 0) {
+        val perSignalWeighting = 1.0 / buySignalCount
+        println(s"\tperSignalWeighting = $perSignalWeighting")
+
+      }
+    }
+  }
+
+
+}
+
 
 object Main {
 
-  def simulate(): HashMap[Int, Vector[BuySignal]] = {
+  def simulate_market(): HashMap[String, HashMap[Int, Float]] = {
+
+    var market = HashMap[String, HashMap[Int, Float]]()
+    var pS = HashMap[Int, Float]()
+    pS += (0 -> 100)
+    pS += (1 -> 115)
+    pS += (2 -> 110)
+    pS += (3 -> 95)
+    market += ("XYZ" -> pS)
+
+    pS = HashMap[Int, Float]()
+    pS += (0 -> 50)
+    pS += (1 -> 60)
+    pS += (2 -> 70)
+    pS += (3 -> 40)
+    market += ("ABC" -> pS)
+
+    pS = HashMap[Int, Float]()
+    pS += (0 -> 10)
+    pS += (1 -> 9)
+    pS += (2 -> 7)
+    pS += (3 -> 15)
+    market += ("FOO" -> pS)
+
+
+    return market
+  }
+
+  def simulate_signals(): HashMap[Int, Vector[BuySignal]] = {
     println("simulating buy signals...")
 
     //
@@ -104,6 +154,9 @@ object Main {
     //
     // date_id = 2: assume no buy signals
     //
+    date_id = 2
+    dailySignals = Vector[BuySignal]()
+    allSignals += (date_id -> dailySignals)
 
     //
     // date_id = 3
@@ -120,22 +173,31 @@ object Main {
     allSignals += (date_id -> dailySignals)
     // check and confirm
     println(s"allSignals has size: ${allSignals.size}")
-    assert(allSignals.size == 3)
+    assert(allSignals.size == 4)
     assert(allSignals contains date_id)
     println("buy signal simulation complete")
 
     return allSignals
   }
 
-  def main(args: Array[String]): Unit = {
-    println("\nhello")
-
-    val buySignals = simulate()
+  def setup(): Unit = {
+    val buySignals = simulate_signals()
     val crystalBall = CrystalBall
     crystalBall.signals = buySignals
     println(crystalBall)
-    println(crystalBall.getBuySignals(0))
+    //    println(crystalBall.getBuySignals(0))
 
+    val priceData = simulate_market()
+    val market = Market
+    market.priceData = priceData
+  }
+
+  def main(args: Array[String]): Unit = {
+    println("\nhello")
+
+    setup()
+    var bot = Bot
+    bot.execute_bot()
 
     println("\n\ngoodbye")
   }
