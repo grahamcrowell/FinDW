@@ -1,4 +1,6 @@
-# High Level Logical Flow:
+# Financial Data Warehouse
+
+## High Level Logical Flow:
 
 1. Entry Point Class
     - collects/reads/encapsulates all the settings/configurations for a single BackTest instance
@@ -29,9 +31,23 @@
         - Sharpe Ratio
         - daily return calculations 
 
-# Stock Trading Strategy Backtesting
+## Stock Trading Strategy Backtesting
 
-# Back testing engine
+### Trade Signal
+
+- symbol
+- date
+- 
+
+### Trade Signal Collection
+
+### Back Test Bot object
+
+Member variables:
+
+- 
+
+
 
 1. sell every thing we bought yesterday at today's prices
     1. determine % change in stock price of all stocks bought yesterday
@@ -42,4 +58,6 @@
 1. determine today's allocation for the buys
     1. 1 / count of buys signals
 1. hold stocks.  go to tomorrow.
+
+
 
