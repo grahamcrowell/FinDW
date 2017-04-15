@@ -313,3 +313,4 @@ local.properties
 .worksheet
 pyFinDW/pyFinDW/dataFolderConfig.json
 *.pyc
+*.class
